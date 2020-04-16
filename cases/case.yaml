@@ -1,0 +1,19 @@
+
+
+- test:
+    name: 接口测试1
+    request:
+        url: https://dis.58.com/discovery/sub/getmysubcontent
+        method: GET
+        headers:
+            source: test
+
+- test:
+    name: 接口测试2
+    request:
+        url: http://www.liulongbin.top:3005/api/getlunbo
+        method: GET
+        headers:
+             source: test
+
+
