@@ -12,6 +12,8 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
+city = 'bj'
+
 TIMEOUT = 3  # 一级超时时间
 TIMEOUT_R = (10, 10)
 
@@ -19,13 +21,13 @@ TIMEOUT_R = (10, 10)
 # TIMEOUT_R = (50, 50)
 
 # 测试失败类型定义
-SUCC_ISSUE = r'请求正常'
-FAILED_REQ = r'请求失败'
-FAILED_OUT = r'请求超时'
-FAILED_HARDOUT = r'请求严重超时'
-FAILED_EXC = r'运行时异常'
-FAILED_BAD = r'请求状态码'
-ASSERT_BAD = r'断言失败'
+SUCC_ISSUE = u'请求正常'
+FAILED_REQ = u'请求失败'
+FAILED_OUT = u'请求超时'
+FAILED_HARDOUT = u'请求严重超时'
+FAILED_EXC = u'运行时异常'
+FAILED_BAD = u'请求状态码'
+ASSERT_BAD = u'断言失败'
 
 
 Bad_URL = ''  # 请求失败的URL
@@ -64,8 +66,6 @@ error_log_path = base_path + '/logs/error.log'
 requests_log_path = base_path + '/logs/requests.log'
 logger_log_path = base_path + '/logs/logger.log'
 
-
-base_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sqlite_path = base_path + '/sqlite/api.sqlite'
 
 
@@ -87,3 +87,14 @@ server_host = '127.0.0.1'
 server_port = 5000
 
 lanuch_server_time = 5
+
+es_index_name = 'api_index'
+es_server_host = '192.168.1.232'
+es_server_port = 9200
+
+mysql_connect = 'mysql://xxxx:xxxxx@49.234.104.160:3306/qacenter?charset=utf8mb4'
+
+is_debug = True
+
+interval_time = 10
+

@@ -18,13 +18,7 @@ from BeautifulSoup import BeautifulSoup
 import platform
 import datetime
 from logzero import logger
-
-TIMEOUT = 5  # 一级超时时间
-TIMEOUT_R = (10, 10)
-
-sublist = []  # 二级url列表
-
-city = 'bj'  # 暂定城市是北京
+from config import *
 
 
 

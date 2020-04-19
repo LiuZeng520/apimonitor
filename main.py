@@ -7,7 +7,7 @@ import threading
 import Queue
 from logzero import logger
 from src.common import *
-from src.sendrequests import *
+from src.sendrequests import main_requests
 import yaml
 from src.server import *
 from pytz import utc
@@ -18,7 +18,12 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
+from src.esuntils import EsUntils
+from src.config import *
 
+
+EsUntils(es_index_name).create_index()
+# 创建索引
 
 
 def server_task():
@@ -57,14 +62,13 @@ def api_job(id='api_job'):
     end_time = time.time()
     diff = (end_time - start_time)
     endtime_stamps = time.strftime("%Y-%m-%d %H:%M:%S")
-
-    logger.info("接口监控脚本 ==> 结束" + '\n' + '本次共监控接口 ==> {}个'.format(request_count))
+    import src.sendrequests
+    logger.info("接口监控脚本 ==> 结束" + '\n' + '本次共监控接口 ==> {}个'.format(src.sendrequests.request_count))
 
 
 scheduler = BlockingScheduler()
-scheduler.add_job(api_job, trigger='interval',seconds=10, id='my_job_id_test')
+scheduler.add_job(api_job,args=['job_once_now',],trigger='interval',seconds=interval_time, id='my_job_id_test',)
 scheduler.start()
-
 
 
 

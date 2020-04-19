@@ -16,6 +16,7 @@ import common
 from config import *
 from logzero import logger
 import grequests
+from esuntils import EsUntils
 
 
 request_count = 0
@@ -109,6 +110,7 @@ def main_requests(**kwargs):
     usd_time = 0
     time_stamp = ''
     req = ''
+
     global request_count
 
 
@@ -133,7 +135,7 @@ def main_requests(**kwargs):
             req = r.post(url, headers=header, data=params, allow_redirects=False, verify=False,
                                 timeout=TIMEOUT_R)
 
-        request_count =  + 1
+        request_count = request_count + 1
         req_code = req.status_code
         req_url = req.url
         time_stamp = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -216,8 +218,6 @@ def main_requests(**kwargs):
 
 
 
-
-
 def async_insert_result(result):
     """
     异步请求
@@ -227,6 +227,8 @@ def async_insert_result(result):
     req_list = [ grequests.post('http://{}:{}/add'.format(server_host,server_port),json=result)  ]
     res_list = grequests.map(req_list)
     logger.info('异步插入数据完成 ==> {}'.format(res_list[0].text))
+
+    EsUntils(es_index_name).insert(result)
 
 
 

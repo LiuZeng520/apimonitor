@@ -34,6 +34,7 @@ from config import *
 
 
 
+
 logger = setup_logger(name="backend", logfile= logger_log_path, level=logging.INFO)
 
 # Set a custom formatter
@@ -46,7 +47,12 @@ blue = Blueprint('app_page',__name__)
 
 class Config(object):
       """配置参数"""
-      SQLALCHEMY_DATABASE_URI = 'sqlite:///' + sqlite_path
+
+      if is_debug:
+          SQLALCHEMY_DATABASE_URI = 'sqlite:///' + sqlite_path
+      else:
+          SQLALCHEMY_DATABASE_URI = mysql_connect
+
       #设置sqlalchemy自动跟踪数据库
       SQLALCHEMY_TRACE_MODIFICATIONS = True
 
@@ -59,6 +65,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'secret_key'
     app.config['SESSION_KEY_PREFIX'] = 'flask'
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)  # 设置session的保存时间。
+    app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
     manager = Manager(app)
     sess = Session(app)
     sess.init_app(app)
@@ -128,16 +135,16 @@ class ApiInfo(db.Model):
     __tablename__ = 't_api_info'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    interface_name = db.Column(db.String(300), unique=False)
-    url = db.Column(db.String(300), unique=False)
-    method = db.Column(db.String(300), unique=False)
-    header = db.Column(db.String(300), unique=False)
-    response = db.Column(db.String(300), unique=False)
-    assert_params = db.Column(db.String(300), unique=False)
-    issue = db.Column(db.String(300), unique=False)
-    status_code = db.Column(db.String(300), unique=False)
-    usd_time = db.Column(db.String(300), unique=False)
-    time_stamp = db.Column(db.String(300), unique=False)
+    interface_name = db.Column(db.TEXT(300), unique=False)
+    url = db.Column(db.TEXT(300), unique=False)
+    method = db.Column(db.TEXT(300), unique=False)
+    header = db.Column(db.TEXT(300), unique=False)
+    response = db.Column(db.TEXT(300), unique=False)
+    assert_params = db.Column(db.TEXT(300), unique=False)
+    issue = db.Column(db.TEXT(300), unique=False)
+    status_code = db.Column(db.TEXT(300), unique=False)
+    usd_time = db.Column(db.TEXT(300), unique=False)
+    time_stamp = db.Column(db.TEXT(300), unique=False)
 
 
     def __init__(self, interface_name, url,method,header,response,assert_params,issue,status_code,usd_time,time_stamp):
